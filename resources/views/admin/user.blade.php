@@ -27,54 +27,27 @@
 
             <table class="table table-striped table-bordered ">
                 <thead>
-                    <th>
-                        #
-                    </th>
-                    <th>
-                        Nama
-                    </th>
-                    <th>
-                        Alamat
-                    </th>
-
-                    <th>
-                        No Hp
-                    </th>
-
-                    <th>
-                        Role
-                    </th>
-
-                    <th>
-                        Avatar
-                    </th>
-
-                    <th>
-                        Action
-                    </th>
-
+                    <th>#</th>
+                    <th>Avatar</th>
+                    <th>Nama</th>
+                    <th>Alamat</th>
+                    <th>No Hp</th>
+                    <th>Role</th>
+                    <th>Action</th>
                 </thead>
+                @forelse($data as $key => $d)
 
                 <tr>
-                    <td>
-                        1
+                    <td>{{$data->firstItem() + $key}}</td>
+                    <td width="100">
+                        <img src="{{$d->avatar}}" onerror="this.src='{{asset('/images/nouser.png')}}'; this.error=null"
+                             style=" height: 100px; object-fit: cover"/>
                     </td>
-                    <td>
-                        Joko
-                    </td>
-                    <td>
-                        Jl. jl men
-                    </td>
-                    <td>
-                        081257182
-                    </td>
-                    <td>
-                        Mitra
-                    </td>
-                    <td>
-                        <img src="https://cdn-2.tstatic.net/palembang/foto/berita/2011/11/10/AVRIL.JPG"
-                            style="width: 75px; height: 100px; object-fit: cover" />
-                    </td>
+                    <td>{{$d->nama}}</td>
+                    <td>{{$d->alamat}}</td>
+                    <td>{{$d->no_hp}}</td>
+                    <td>{{$d->roles}}</td>
+                    <td>Mitra</td>
                     <td style="width: 150px">
                         <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
                             data-bs-target="#tambahsiswa">Ubah</button>
@@ -82,7 +55,16 @@
                     </td>
                 </tr>
 
+                @empty
+                    <tr>
+                        <td colspan="7" class="text-center">Tidak ada data user</td>
+                    </tr>
+                @endforelse
+
             </table>
+            <div class="d-flex justify-content-end">
+                {{$data->links()}}
+            </div>
 
         </div>
 
@@ -152,7 +134,7 @@
                                     <input type="password" required class="form-control" id="password-confirmation">
                                 </div>
 
-                                
+
 
                                 <div class="mb-4"></div>
                                 <button type="submit" class="btn btn-primary">Simpan</button>

@@ -21,67 +21,58 @@
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5>Data User</h5>
                 <button type="button ms-auto" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                    data-bs-target="#tambahsiswa">Tambah Data</button>
+                        data-bs-target="#tambahsiswa">Tambah Data
+                </button>
             </div>
 
 
             <table class="table table-striped table-bordered ">
                 <thead>
-                    <th>
-                        #
-                    </th>
-
-                    <th>
-                        Nama Kos
-                    </th>
-
-                    <th>
-                        Alamat
-                    </th>
-
-                    <th>
-                        Foto
-                    </th>
-
-                    <th>
-                        Action
-                    </th>
-
-                </thead>
-
                 <tr>
-                    <td>
-                        1
-                    </td>
-                    <td>
-                        Kos Apel
-                    </td>
-                    <td>
-                        Solobaru
-                    </td>
-                    <td>
-                        <img src="https://i.ytimg.com/vi/Ljq1muZoudA/sddefault.jpg"
-                            style="width: 75px; height: 100px; object-fit: cover" />
-                    </td>
-                    <td style="width: 150px">
-                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
-                            data-bs-target="#tambahsiswa">Ubah</button>
-                        <button type="button" class="btn btn-danger btn-sm" onclick="hapus('id', 'nama') ">hapus</button>
-                    </td>
+                    <th>#</th>
+                    <th>Foto</th>
+                    <th>Nama Kos</th>
+                    <th>Alamat</th>
+                    <th>Mitra</th>
+                    <th>Action</th>
                 </tr>
+                </thead>
+                @forelse($data as $key => $d)
+                    <tr>
+                        <td>{{$data->firstItem() + $key}}</td>
+                       <td> <img src="{{$d->foto}}" onerror="this.src='{{asset('/images/noimage.png')}}'; this.error=null"
+                                 style="height: 100px; object-fit: cover"/></td>
+                        <td>{{$d->nama}}</td>
+                        <td>{{$d->alamat}}</td>
+                        <td>{{$d->user->nama}}</td>
+                        <td style="width: 150px">
+                            <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#tambahsiswa">Ubah
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="hapus('id', 'nama') ">hapus</button>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="7" class="text-center">Tidak ada data user</td>
+                    </tr>
+                @endforelse
             </table>
+            <div class="d-flex justify-content-end">
+                {{$data->links()}}
+            </div>
         </div>
 
         <div>
             <!-- Modal Tambah-->
             <div class="modal fade" id="tambahsiswa" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
+                 aria-hidden="true">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Tambah Siswa</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                                    aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form>
@@ -149,7 +140,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
 
 
@@ -170,18 +161,18 @@
 
 @section('script')
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
 
         })
 
         function hapus(id, name) {
             swal({
-                    title: "Menghapus data?",
-                    text: "Apa kamu yakin, ingin menghapus data ?!",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
+                title: "Menghapus data?",
+                text: "Apa kamu yakin, ingin menghapus data ?!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
                 .then((willDelete) => {
                     if (willDelete) {
                         swal("Berhasil Menghapus data!", {

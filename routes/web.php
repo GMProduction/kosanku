@@ -34,24 +34,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('admin.dashboard');
-});
+Route::prefix('')->group(function (){
 
-Route::get('/admin', function () {
-    return view('admin');
-});
+    Route::get('/', function () {
+        return view('admin.dashboard');
+    });
 
-Route::get('/admin', function () {
-    return view('admin.dashboard');
-});
+    Route::get('/admin', function () {
+        return view('admin');
+    });
 
-Route::get('/admin/user', function () {
-    return view('admin.user');
-});
+    Route::get('user', [\App\Http\Controllers\Admin\UserContoller::class,'index']);
 
-Route::get('/admin/kos', function () {
-    return view('admin.kos');
+    Route::get('kos', [\App\Http\Controllers\Admin\KosController::class,'index']);
+
 });
 
 
