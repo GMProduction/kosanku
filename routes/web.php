@@ -34,7 +34,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('')->group(function (){
+Route::prefix('')->middleware('auth')->group(function (){
 
     Route::get('/', function () {
         return view('admin.dashboard');
@@ -44,76 +44,28 @@ Route::prefix('')->group(function (){
         return view('admin');
     });
 
-    Route::get('user', [\App\Http\Controllers\Admin\UserContoller::class,'index']);
+    Route::prefix('user')->group(function (){
+        Route::get('', [\App\Http\Controllers\Admin\UserContoller::class,'index']);
+        Route::post('register', [AuthController::class,'register']);
+        Route::get('delete/{id}', [\App\Http\Controllers\Admin\UserContoller::class,'delete']);
+        Route::get('{id}/kos', [\App\Http\Controllers\Admin\KosController::class,'getDataById']);
+        Route::get('{id}/trash', [\App\Http\Controllers\Admin\KosController::class,'getTrashById']);
+        Route::get('delete-kos/{id}',[\App\Http\Controllers\Admin\KosController::class, 'delete']);
+        Route::post('restore-kos/{id}',[\App\Http\Controllers\Admin\KosController::class, 'restore']);
+        Route::get('trash',[\App\Http\Controllers\Admin\UserContoller::class,'trash']);
+        Route::post('restore/{id}', [\App\Http\Controllers\Admin\UserContoller::class,'restore']);
+    });
 
-    Route::get('kos', [\App\Http\Controllers\Admin\KosController::class,'index']);
+    Route::prefix('kos')->group(function (){
+        Route::match(['POST','GET'],'', [\App\Http\Controllers\Admin\KosController::class,'index']);
+        Route::get('delete/{id}', [\App\Http\Controllers\Admin\KosController::class,'delete']);
+        Route::get('trash', [\App\Http\Controllers\Admin\KosController::class,'trash']);
+        Route::post('restore/{id}', [\App\Http\Controllers\Admin\KosController::class,'restore']);
+    });
 
 });
 
 
-Route::post('/login', [AuthController::class, 'login']);
+Route::match(['GET','POST'],'/login', [AuthController::class, 'loginWeb'])->name('login');
 Route::get('/logout', [AuthController::class, 'logout']);
 Route::post('/register-member', [AuthController::class, 'registerMember']);
-
-// Route::prefix('/user')->middleware(UserMiddleware::class)->group(function (){
-//     Route::get('/', function () {
-//         return view('user/dashboard');
-//     });
-//     Route::match(['get','post'],'/keranjang', [KeranjangController::class,'index']);
-//     Route::get('/keranjang/{id}/delete', [KeranjangController::class,'delete']);
-//     Route::match(['post','get'],'/pembayaran', [PembayaranController::class, 'index']);
-//     Route::get('/menunggu', [MenungguController::class,'index']);
-//     Route::get('/dikemas', [DikemasController::class,'index']);
-//     Route::match(['post','get'],'/pengiriman', [PengirimanController::class,'index']);
-//     Route::get('/selesai', [SelesaiController::class, 'index']);
-//     Route::match(['post','get'],'/profile', [ProfileController::class, 'index']);
-
-// });
-
-// Route::prefix('/admin')->middleware(AdminMiddleware::class)->group(function (){
-//     Route::get('/', [DashboardController::class, 'index']);
-
-//     Route::match(['get','post'],'/bank', [BankController::class,'index']);
-//     Route::get('/kategori', [KategoriController::class,'index']);
-//     Route::post('/kategori', [KategoriController::class,'addKategori']);
-
-//     Route::prefix('/produk')->group(function (){
-//         Route::get('/', [ProdukController::class,'index']);
-//         Route::match(['get','post'],'/data', [ProdukController::class,'data']);
-//         Route::get('/kategori', [KategoriController::class,'dataKategori'])->name('produk_kategori');
-//         Route::post('/kategori', [KategoriController::class,'addKategori']);
-//         Route::match(['get','post'],'/image', [ProdukController::class,'addImage']);
-//     });
-
-//     Route::get('/pelanggan', [MemberController::class,'index']);
-//     Route::get('/laporan', [LaporanController::class,'index']);
-
-//     Route::match(['post','get'],'/baner', [BanerController::class,'index']);
-//     Route::get('/baner/{id}/delete', [BanerController::class,'delete']);
-
-//     Route::get('/pesanan', [PesananController::class,'index']);
-//     Route::match(['post','get'],'/pesanan/{id}', [PesananController::class,'getDetailPesanan']);
-
-//     Route::get('/cetaklaporan',[LaporanController::class, 'cetakLaporan']);
-// });
-
-// Route::get('/kategori', [KategoriController::class,'dataKategori'])->name('produk_kategori');
-// Route::get('/get-produk-recomend', [\App\Http\Controllers\ProdukController::class,'dataProduk']);
-
-// Route::get('/produk', [\App\Http\Controllers\ProdukController::class,'index']);
-// Route::get('/produk/detail/{id}', [\App\Http\Controllers\ProdukController::class,'detail']);
-// Route::post('/produk/detail/{id}', [\App\Http\Controllers\ProdukController::class,'simpanPesanan']);
-// Route::get('/produk/detail/{id}/image', [\App\Http\Controllers\ProdukController::class,'getImageProduk']);
-
-// Route::get('/baner', [HomeController::class,'baner']);
-// Route::get('/bank', [BankController::class,'getBank']);
-// Route::get('/get-city',[RajaOngkirController::class,'getCity']);
-// Route::get('/get-cost',[RajaOngkirController::class,'cost']);
-
-
-// Route::get('/get-keranjang',[HomeController::class,'getKeranjang']);
-
-
-
-
-// Route::post('/register',[AuthController::class,'register']);

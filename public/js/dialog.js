@@ -26,6 +26,8 @@ function saveData(title, form, url, resposeSuccess) {
                         if (xhr.status === 200) {
                             swal("Berhasil", {
                                 icon: "success",
+                                timer: 1000,
+                                buttons: false
                             }).then((dat) => {
                                 if (resposeSuccess) {
                                     resposeSuccess()
@@ -47,8 +49,8 @@ function saveData(title, form, url, resposeSuccess) {
                         // console.log("LOG ERROR", error.responseJSON.errors[Object.keys(error.responseJSON.errors)[0]][0]);
                         console.log(xhr.status);
                         console.log(textStatus);
-                        console.log(error.responseJSON);
-                        swal(error.responseJSON.errors[Object.keys(error.responseJSON.errors)[0]][0])
+                        console.log(error.responseJSON.errors);
+                        swal(error.responseJSON.errors ? error.responseJSON.errors[Object.keys(error.responseJSON.errors)[0]][0] : error.responseJSON['message'])
                     }
                 })
             }
@@ -81,6 +83,8 @@ function saveDataObject(title, form_data, url, resposeSuccess) {
                         if (xhr.status === 200) {
                             swal("Data Updated ", {
                                 icon: "success",
+                                timer: 1000,
+                                buttons: false
                             }).then((dat) => {
                                 if (resposeSuccess) {
                                     resposeSuccess()
@@ -103,7 +107,8 @@ function saveDataObject(title, form_data, url, resposeSuccess) {
                         console.log(xhr.status);
                         console.log(textStatus);
                         console.log(error.responseJSON);
-                        swal(error.responseJSON.errors[Object.keys(error.responseJSON.errors)[0]][0])
+                        swal(error.responseJSON.errors ? error.responseJSON.errors[Object.keys(error.responseJSON.errors)[0]][0] : error.responseJSON['message'])
+
                     }
                 })
             }
@@ -141,6 +146,8 @@ function deleteData(text, url, resposeSuccess) {
                         if (xhr.status === 200) {
                             swal("Data Deleted ", {
                                 icon: "success",
+                                timer: 1000,
+                                buttons: false
                             }).then((dat) => {
                                 if (resposeSuccess) {
                                     resposeSuccess()

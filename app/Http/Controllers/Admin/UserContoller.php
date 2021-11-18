@@ -18,5 +18,22 @@ class UserContoller extends Controller
         return view('admin.user')->with(['data' => $user]);
     }
 
+    public function delete($id){
+        $user = User::find($id);
+        $user->delete();
+        return 'berhasil';
+    }
+
+    public function trash(){
+        $user = User::onlyTrashed()->get();
+        return $user;
+    }
+
+    public function restore($id){
+        $user = User::onlyTrashed()->find($id);
+        $user->restore();
+        return $user;
+    }
+
 
 }
