@@ -46,7 +46,7 @@ class AuthController extends Controller
             Arr::set($field, 'password', Hash::make($field['password']));
             $user  = User::create($field);
             if ($field['roles'] != 'admin'){
-                $token = $user->createToken($field['roles'],['member:'.$field['roles']])->plainTextToken;
+                $token = $user->createToken($field['roles'],[$field['roles']])->plainTextToken;
                 $user->update(['token' => $token]);
                 return response()->json(
                     [

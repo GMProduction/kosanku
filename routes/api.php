@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/login',[\App\Http\Controllers\AuthController::class,'login']);
 Route::post('/register',[\App\Http\Controllers\AuthController::class,'register']);
 
-Route::prefix('mitra')->middleware(['auth:sanctum', 'ability:mitra'])->group(function (){
+Route::prefix('mitra')->middleware(['auth:sanctum'])->group(function (){
     Route::match(['POST','GET'],'profile', [\App\Http\Controllers\Mitra\ProfileController::class,'index']);
     Route::post('profile/avatar', [\App\Http\Controllers\Mitra\ProfileController::class,'avatar']);
 
@@ -33,7 +33,7 @@ Route::prefix('mitra')->middleware(['auth:sanctum', 'ability:mitra'])->group(fun
 
 });
 
-Route::prefix('user')->middleware(['auth:sanctum', 'ability:user'])->group(function (){
+Route::prefix('user')->middleware(['auth:sanctum'])->group(function (){
     Route::match(['POST','GET'],'profile', [\App\Http\Controllers\User\ProfileController::class,'index']);
     Route::post('profile/avatar', [\App\Http\Controllers\User\ProfileController::class,'avatar']);
     Route::prefix('kos')->group(function (){
