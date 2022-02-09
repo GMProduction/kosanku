@@ -19,6 +19,19 @@ class KosController extends Controller
         return $kos;
     }
 
+    public function search($nama)
+    {
+        if($nama == null || $nama == ""){
+            $kos = MasterKos::all();
+        }else{
+            $kos = MasterKos::where('nama', 'like', '%'.$nama.'%')->get();
+        }
+
+        return $kos;
+    }
+
+
+
     public function detail($id)
     {
         $kos = MasterKos::with(['user','rating'])->find($id);

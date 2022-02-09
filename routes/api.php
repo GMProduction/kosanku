@@ -38,6 +38,7 @@ Route::prefix('user')->middleware(['auth:sanctum'])->group(function (){
     Route::post('profile/avatar', [\App\Http\Controllers\User\ProfileController::class,'avatar']);
     Route::prefix('kos')->group(function (){
         Route::get('',[\App\Http\Controllers\User\KosController::class,'index']);
+        Route::get('search/{nama}',[\App\Http\Controllers\User\KosController::class,'search']);
         Route::get('{id}',[\App\Http\Controllers\User\KosController::class,'detail']);
         Route::post('rating/{id}', [\App\Http\Controllers\User\KosController::class, 'rating']);
     });
