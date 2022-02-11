@@ -27,6 +27,8 @@ class KosController extends CustomController
             'peruntukan' => 'required',
             'harga' => 'required',
             'alamat' => 'required',
+            'latitude' => 'required',
+            'longtitude' => 'required',
         ]);
         $field = \request()->all();
 
